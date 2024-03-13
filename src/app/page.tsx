@@ -95,7 +95,7 @@ function MyApp() {
       <div
         style={{
           display: "flex",
-          gap: 10,
+          gap: 40,
         }}
       >
         <div

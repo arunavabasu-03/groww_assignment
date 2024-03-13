@@ -1,0 +1,31 @@
+.container {
+   box-sizing: border-box;
+    height: 200px;
+    width:  60vw;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.quantity_container {
+  display: inline-flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+}
+
+.button{
+  height: 30px;
+  width: 30px;
+  padding: 4px;
+  border: 2px solid lightgray;
+  border-radius: 6px;
+}
+
+.button:hover {
+  background-color: lightgray;
+}

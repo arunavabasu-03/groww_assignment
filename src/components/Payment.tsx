@@ -1,46 +1,43 @@
-import React, { useState } from "react";
-import styles from "@/styles/components/Payment.module.css"; // Ensure the path to your CSS module is correct
+// PaymentMethodsComponent.js
 
-const PaymentScreen = () => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+import { usePaymentMethodsStore } from "@/store/payment";
+import React, { useEffect } from "react";
+ // adjust the import path
 
-  const handleSelectPaymentMethod = (method: any) => {
-    setSelectedPaymentMethod(method);
-  };
+const PaymentMethodsComponent = () => {
+  const {
+    paymentMethods,
+    selectedPaymentMethod,
+    fetchPaymentMethods,
+    selectPaymentMethod,
+    loading,
+    error,
+  } = usePaymentMethodsStore();
+
+  useEffect(() => {
+    fetchPaymentMethods();
+  }, [fetchPaymentMethods]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className={styles.paymentScreen}>
-      <div className={styles.paymentBox}>
-        <h1 className={styles.title}>Payment method</h1>
-        <p className={styles.subtitle}>Select your preferred payment method.</p>
-        <form className={styles.form}>
-          <label className={styles.option}>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="paypal"
-              checked={selectedPaymentMethod === "paypal"}
-              onChange={() => handleSelectPaymentMethod("paypal")}
-            />
-            PayPal
-          </label>
-          <label className={styles.option}>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="stripe"
-              checked={selectedPaymentMethod === "stripe"}
-              onChange={() => handleSelectPaymentMethod("stripe")}
-            />
-            Stripe
-          </label>
-          <button className={styles.continueButton} type="submit">
-            Continue
-          </button>
-        </form>
-      </div>
+    <div>
+      <h2>Payment method</h2>
+      {paymentMethods.map((method, index) => (
+        <label key={index}>
+          <input
+            type="radio"
+            name="paymentMethod"
+            value={method}
+            checked={selectedPaymentMethod === method}
+            onChange={() => selectPaymentMethod(method)}
+          />
+          {method}
+        </label>
+      ))}
     </div>
   );
 };
 
-export default PaymentScreen;
+export default PaymentMethodsComponent;

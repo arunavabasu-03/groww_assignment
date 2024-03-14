@@ -1,7 +1,11 @@
 import Image from "next/image";
 import styles from "@/styles/components/OrderSummery.module.css";
+import { usePaymentMethodsStore } from "@/store/payment";
+import { useAddressStore } from "@/store/address";
 
 function OrderSummary() {
+  const { selectedPaymentMethod } = usePaymentMethodsStore();
+  const { address, city, pin } = useAddressStore();
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Order Summary</h1>
@@ -27,6 +31,14 @@ function OrderSummary() {
         <div className={styles.subTotalRow}>
           <span>Total </span>
           <span>$420</span>
+        </div>
+        <div>{selectedPaymentMethod}</div>
+        <h2>Delivery Detail</h2>
+        <div>
+          <span>📍</span>
+          <span>
+            {address}, {city}, {pin}
+          </span>
         </div>
       </div>
     </div>

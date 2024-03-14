@@ -1,0 +1,29 @@
+.input {
+	border: 2px solid lightgray;
+	outline: none;
+	border-radius: 10px;
+	padding: .4em;
+	color: #E91E63;
+	margin: 10;
+	margin-bottom: 20px;
+	width: 80vw;
+	height: 20px;
+}
+
+.formContainer{
+	display: flex;
+	flex-direction: column;
+
+}
+
+.button{
+	height: 40px;
+	width: 80vw;
+	outline: black;
+	border:none;
+
+}
+
+.error{
+	color: #E91E63;
+}

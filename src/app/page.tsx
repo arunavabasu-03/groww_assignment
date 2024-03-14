@@ -3,6 +3,8 @@ import NavBar from "@/components/NavBar";
 import Product from "@/components/Product";
 import SubTotal from "@/components/SubTotal";
 import useThemeStore from "@/store/theme";
+import styles from "@/styles/page.module.css";
+
 // import useStore from "@/store/store";
 // import React, { useEffect } from "react";
 
@@ -92,19 +94,14 @@ function MyApp() {
   return (
     <div>
       <NavBar />
-      <div
-        style={{
-          display: "flex",
-          gap: 40,
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-          }}
-        >
+      <div className={styles.container}>
+        <div className={styles.productContainer}>
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
           <Product />
         </div>
 

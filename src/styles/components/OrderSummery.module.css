@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  width: 100vh;
+  border: 2px solid lightgray;
+  border-radius: 10px;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.title {
+  text-align: center;
+}
+
+.itemContainer {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.itemDetails {
+  display: flex;
+}
+
+.image {
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.subTotalContainer {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 40px;
+  padding-right: 40px;
+}

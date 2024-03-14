@@ -9,7 +9,16 @@
     justify-content: space-between;
     align-items: center;
     padding-left: 40px;
+
 }
+.productContainer{
+    display: flex;
+    gap : 80px;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 6px;
+}
+
 
 .quantity_container {
   display: inline-flex;
@@ -28,4 +37,29 @@
 
 .button:hover {
   background-color: lightgray;
+}
+
+
+@media (max-width: 600px) {
+
+.container{
+   border:none;
+   width:  92vw;
+   margin: 10;
+padding-right: 20;
+
+  
+
+}
+.button{
+  height: 14px;
+  width: 14px;
+}
+.title{
+  font-size:15px
+}
+.productContainer{
+    gap : 20px;
+}
+
 }

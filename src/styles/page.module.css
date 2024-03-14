@@ -1,0 +1,27 @@
+.container{
+    display: flex;
+    gap: 40px;
+}
+
+.productContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (max-width: 600px) {
+
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.productContainer{
+   height: 44vh;
+    overflow-y: auto;
+
+  
+}
+
+
+}

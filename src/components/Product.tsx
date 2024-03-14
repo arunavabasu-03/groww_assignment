@@ -2,12 +2,33 @@ import React from "react";
 import styles from "@/styles/components/product.module.css";
 import Image from "next/image";
 import { Minus, Plus, Trash2 } from "lucide-react";
-function Product() {
+
+interface TProductProps {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  quantity: number;
+  addToCart: any;
+  removeFromCart: any;
+  removeEntireFromCart: any;
+}
+
+function Product({
+  id,
+  title,
+  image,
+  price,
+  quantity,
+  addToCart,
+  removeFromCart,
+  removeEntireFromCart,
+}: TProductProps) {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} key={id}>
       <div className={styles.productContainer}>
         <Image
-          src={"https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg"}
+          src={image}
           height={100}
           width={100}
           alt={"Pic"}
@@ -18,20 +39,35 @@ function Product() {
         />
         {/*product info*/}
         <div>
-          <h1 className={styles.title}>Product Name</h1>
-          <p>price</p>
+          <h1 className={styles.title}>{title}</h1>
+          <p>{price}</p>
           <div className={styles.quantity_container}>
-            <Plus className={styles.button} />
-            <p>4</p>
-            <Minus className={styles.button} />
+            <Plus
+              className={styles.button}
+              onClick={() => {
+                addToCart(id);
+              }}
+            />
+            <p>{quantity}</p>
+            <Minus
+              className={styles.button}
+              onClick={() => {
+                removeFromCart(id);
+              }}
+            />
           </div>
         </div>
       </div>
 
       {/*Remove Item*/}
-      <Trash2 style={{
-        paddingRight:20
-      }}/>
+      <Trash2
+        style={{
+          paddingRight: 20,
+        }}
+        onClick={() => {
+          removeEntireFromCart(id);
+        }}
+      />
     </div>
   );
 }

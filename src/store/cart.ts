@@ -1,32 +1,33 @@
-import { TProduct } from "@/types/types";
 import { create } from "zustand";
+import { TProduct } from "@/types/types";
 
-export interface StoreState {
-  products: TProduct[];
-  paymentMethods: string[];
+export interface TCartState {
   loading: boolean;
   error: string | null;
+  products: TProduct[]; // all the products
+  paymentMethods: string[]; // all the payment methods
+  taxRate: number; // Added tax rate
+}
+export interface TCartActions {
   fetchOrderDetails: () => Promise<void>;
   addToCart: (productId: number) => void;
   removeFromCart: (productId: number) => void;
   removeEntireFromCart: (productId: number) => void;
   cartTotal: () => number;
-  taxRate: number; // Added tax rate
   taxAmount: () => number; // Added tax amount
   finalTotal: () => number; // Added final total
 }
 
-export const useStore = create<StoreState>((set, get) => ({
+export const useStore = create<TCartState & TCartActions>((set, get) => ({
   // Initial state
   products: [],
   paymentMethods: [],
   loading: false,
-  error: null, // Add error state
+  error: null, 
   taxRate: 0.18,
 
-  // Action to fetch order details
   fetchOrderDetails: async () => {
-    set({ loading: true, error: null }); // Reset error state on new fetch
+    set({ loading: true, error: null });
     try {
       const response = await fetch(
         "https://groww-intern-assignment.vercel.app/v1/api/order-details"
@@ -45,12 +46,12 @@ export const useStore = create<StoreState>((set, get) => ({
   },
   taxAmount: () => {
     const cartTotal = get().cartTotal();
-    return cartTotal * get().taxRate; // 18% of cart total
+    return cartTotal * get().taxRate;
   },
   finalTotal: () => {
     const cartTotal = get().cartTotal();
     const taxAmount = get().taxAmount();
-    return cartTotal + taxAmount; // Sum of cart total and tax
+    return cartTotal + taxAmount;
   },
   addToCart: (productId: number) => {
     const { products } = get();
@@ -72,7 +73,7 @@ export const useStore = create<StoreState>((set, get) => ({
         }
         return product;
       })
-      .filter((product) => product.quantity > 0); // Keep items with quantity more than 0
+      .filter((product) => product.quantity > 0);
     set({ products: updatedProducts });
   },
   removeEntireFromCart: (productId: number) => {
@@ -82,8 +83,6 @@ export const useStore = create<StoreState>((set, get) => ({
     );
     set({ products: updatedProducts });
   },
-
-  // Calculate cart total
   cartTotal: () => {
     const { products } = get();
     return products.reduce(
@@ -92,4 +91,3 @@ export const useStore = create<StoreState>((set, get) => ({
     );
   },
 }));
-

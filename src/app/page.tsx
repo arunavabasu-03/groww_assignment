@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import NavBar from "@/components/NavBar";
 import Product from "@/components/Product";
 import SubTotal from "@/components/SubTotal";
-import { useStore } from "@/store/store";
+import { useStore } from "@/store/cart";
 import useThemeStore from "@/store/theme";
 import styles from "@/styles/page.module.css";
 

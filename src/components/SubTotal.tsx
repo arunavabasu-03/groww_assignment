@@ -1,11 +1,13 @@
-import React from "react";
-import { useStore } from "@/store/store";
-import styles from "@/styles/components/sutotal.module.css"; // Ensure the path is correct
+import { useStore } from "@/store/cart";
+import { useRouter } from "next/navigation";
+import styles from "@/styles/components/sutotal.module.css";
 
 function SubTotal() {
   const cartTotal = useStore((state) => state.cartTotal);
   const taxAmount = useStore((state) => state.taxAmount);
   const finalTotal = useStore((state) => state.finalTotal);
+  const router = useRouter();
+
   return (
     <div className={styles.container}>
       <h1 className={styles.summaryTitle}>Summary</h1>
@@ -25,7 +27,14 @@ function SubTotal() {
           <span>${finalTotal().toFixed(2)}</span>
         </div>
       </div>
-      <button className={styles.paymentButton}>Proceed to Checkout</button>
+      <button
+        className={styles.paymentButton}
+        onClick={() => {
+          router.push("/checkout");
+        }}
+      >
+        Proceed to Checkout
+      </button>
     </div>
   );
 }

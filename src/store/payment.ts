@@ -1,25 +1,23 @@
-// PaymentMethodsStore.js
-
 import { create } from "zustand";
 
-// Define the structure of the store's state
-export interface PaymentMethodsState {
-  paymentMethods: string[];
-  selectedPaymentMethod: string | null;
+export interface TPaymentMethodsState {
   loading: boolean;
   error: string | null;
-  fetchPaymentMethods: () => Promise<void>;
-  selectPaymentMethod: (method: string) => void;
+  paymentMethods: string[]; // all the payment methods
+  selectedPaymentMethod: string | null; // selected payment  method
 }
 
-// Create the Zustand store
-export const usePaymentMethodsStore = create<PaymentMethodsState>((set) => ({
+export interface TPaymentMethodsAction {
+  fetchPaymentMethods: () => Promise<void>; // fetching the payment methods
+  selectPaymentMethod: (method: string) => void; // setting  the payment methods
+}
+export const usePaymentMethodsStore = create<
+  TPaymentMethodsState & TPaymentMethodsAction
+>((set) => ({
   paymentMethods: [],
   selectedPaymentMethod: null,
   loading: false,
   error: null,
-
-  // Fetches payment methods from the API
   fetchPaymentMethods: async () => {
     set({ loading: true, error: null });
     try {
@@ -30,11 +28,10 @@ export const usePaymentMethodsStore = create<PaymentMethodsState>((set) => ({
       const data = await response.json();
       set({ paymentMethods: data.paymentMethods, loading: false });
     } catch (error) {
-      set({ error:"error", loading: false });
+      set({ error: "error", loading: false });
     }
   },
 
-  // Selects a payment method
   selectPaymentMethod: (method: string) => {
     set({ selectedPaymentMethod: method });
   },

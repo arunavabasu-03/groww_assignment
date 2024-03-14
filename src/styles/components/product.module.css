@@ -39,6 +39,13 @@
   background-color: lightgray;
 }
 
+.title{
+  font-size:15px;
+   width: 150px; 
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
 
 @media (max-width: 600px) {
 

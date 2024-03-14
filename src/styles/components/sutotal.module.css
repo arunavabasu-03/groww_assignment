@@ -1,0 +1,47 @@
+.container {
+  box-sizing: border-box;
+  height: 320px;
+  width: 40vw;
+  border: 2px solid lightgray;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* New CSS classes for styles previously defined inline */
+.summaryTitle {
+  text-align: center;
+}
+
+.itemContainer {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.itemRow {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.divider {
+  height: 20px;
+  width: 100%;
+  border-top: 1px solid lightgray;
+}
+
+.paymentButton {
+  height: 48px;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 20px;
+  border: none;
+}
+
+@media (max-width: 600px) {
+  .container {
+    border: none;
+    width: 100vw;
+  }
+}

@@ -33,3 +33,13 @@
   padding-left: 40px;
   padding-right: 40px;
 }
+
+
+@media (max-width: 600px) {
+
+.container {
+  border: none;
+}
+
+
+}

@@ -1,34 +1,41 @@
 "use client";
 import { useEffect } from "react";
+
 import NavBar from "@/components/NavBar";
 import Product from "@/components/Product";
 import SubTotal from "@/components/SubTotal";
 import { useStore } from "@/store/cart";
 import useThemeStore from "@/store/theme";
+
+import { useFetchOrderDetails } from "@/hooks/useFetchOrderDetails";
+
 import styles from "@/styles/page.module.css";
+import EmptyCart from "@/components/EmptyCart";
+import Loading from "@/components/Loading";
 
 function MyApp() {
   //@ts-ignore
-  const { theme, setTheme } = useThemeStore();
+
+  const { theme, setTheme } = useThemeStore(); // setting the theme
+
   const {
-    products,
-    loading,
     error,
-    fetchOrderDetails,
-    removeFromCart,
-    cartTotal,
+    products,
     addToCart,
+    removeFromCart,
+    fetchOrderDetails,
     removeEntireFromCart,
   } = useStore((state) => ({
-    products: state.products,
-    loading: state.loading,
     error: state.error,
-    fetchOrderDetails: state.fetchOrderDetails,
-    removeFromCart: state.removeFromCart,
-    cartTotal: state.cartTotal,
+    products: state.products,
     addToCart: state.addToCart,
+    removeFromCart: state.removeFromCart,
+    fetchOrderDetails: state.fetchOrderDetails,
     removeEntireFromCart: state.removeEntireFromCart,
-  }));
+  })); // getting the state from the store
+
+  const { isLoading, isError } = useFetchOrderDetails();
+
   useEffect(() => {
     fetchOrderDetails();
   }, [fetchOrderDetails]);
@@ -51,9 +58,24 @@ function MyApp() {
 
     fetchAndSetTheme();
   }, [setTheme]);
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-  if (products.length === 0) return <div>Your cart is empty.</div>;
+
+  if (isLoading)
+    return (
+      <div>
+        <NavBar />
+        <Loading />
+      </div>
+    );
+
+  if (isError) return <div>{error}</div>;
+
+  if (products.length === 0)
+    return (
+      <div>
+        <NavBar />
+        <EmptyCart />
+      </div>
+    );
 
   return (
     <div>

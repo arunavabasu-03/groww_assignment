@@ -16,6 +16,10 @@ export interface TCartActions {
   cartTotal: () => number;
   taxAmount: () => number; // Added tax amount
   finalTotal: () => number; // Added final total
+  setProducts: (products: TProduct[]) => void;
+  setPaymentMethods: (paymentMethods: string[]) => void;
+  setError: (error: string | null) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 export const useStore = create<TCartState & TCartActions>((set, get) => ({
@@ -23,7 +27,7 @@ export const useStore = create<TCartState & TCartActions>((set, get) => ({
   products: [],
   paymentMethods: [],
   loading: false,
-  error: null, 
+  error: null,
   taxRate: 0.18,
 
   fetchOrderDetails: async () => {
@@ -90,4 +94,8 @@ export const useStore = create<TCartState & TCartActions>((set, get) => ({
       0
     );
   },
+  setProducts: (products) => set(() => ({ products })),
+  setPaymentMethods: (paymentMethods) => set(() => ({ paymentMethods })),
+  setError: (error) => set(() => ({ error })),
+  setLoading: (loading) => set(() => ({ loading })),
 }));

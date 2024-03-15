@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function NavBar() {
@@ -13,12 +14,14 @@ function NavBar() {
             gap: 10,
           }}
         >
-          <Image
-            src={"https://groww.in/groww-logo-270.png"}
-            height={50}
-            width={50}
-            alt="Groww Logo"
-          />
+          <Link href={'/'}>
+            <Image
+              src={"https://groww.in/groww-logo-270.png"}
+              height={50}
+              width={50}
+              alt="Groww Logo"
+            />
+          </Link>
           <h1>Groww</h1>
         </div>
         <div

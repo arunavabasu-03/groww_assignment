@@ -1,13 +1,11 @@
 "use client";
-
-import React from "react";
 import NavBar from "@/components/NavBar";
 import UserInfoForm from "@/components/UserInfo";
 
 function page() {
   return (
     <div>
-      <NavBar />
+      <NavBar/>
       <div
         style={{
           height: "100%",

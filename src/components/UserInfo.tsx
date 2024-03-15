@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import Loading from "./Loading";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { usePaymentMethodsStore } from "@/store/payment";
-import styles from "@/styles/components/Userinfo.module.css"; // Adjust the path for
-import { useUserInfoStore } from "@/store/userinfo";
 import { useRouter } from "next/navigation";
+import { useUserInfoStore } from "@/store/userinfo";
+import { usePaymentMethodsStore } from "@/store/payment";
+import styles from "@/styles/components/Userinfo.module.css";
 
 const UserInfoForm = () => {
-    
   const router = useRouter();
-  
+
   const {
     register,
     handleSubmit,
@@ -21,12 +21,16 @@ const UserInfoForm = () => {
     error,
     selectPaymentMethod,
   } = usePaymentMethodsStore();
+  
+  
   const { setAddress, setCity, setPin, setSelectedPaymentMethod } =
     useUserInfoStore();
   useEffect(() => {
     fetchPaymentMethods();
   }, [fetchPaymentMethods]);
 
+  
+  
   const onSubmit = (data: any) => {
     setAddress(data.address);
     setCity(data.city);
@@ -37,14 +41,17 @@ const UserInfoForm = () => {
     router.push("/ordersummery");
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-      {/* Address Fields */}
       <h2>Your Details</h2>
-
       <h4>Address</h4>
       <div>
         <p>Address</p>
@@ -111,7 +118,6 @@ const UserInfoForm = () => {
           {errors.paymentMethod.message as React.ReactNode}
         </p>
       )}
-
       <button type="submit" className={styles.button}>
         Save and Continue
       </button>

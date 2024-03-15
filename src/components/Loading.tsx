@@ -1,32 +1,31 @@
-import NavBar from "@/components/NavBar";
-import { CheckCircle } from "lucide-react";
+import NavBar from './NavBar';
+import { Loader } from 'lucide-react';
 
-function page() {
+function Loading() {
   return (
     <div>
-      <NavBar />
       <div
         style={{
-          height: "86vh",
-          width: "100%",
           display: "flex",
+          height: "80vh",
+          width: "100vw",
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
         }}
       >
-        <CheckCircle
+        <Loader
           style={{
-            color: "#50C878",
+            color: "red",
             fontWeight: "bold",
             height: 100,
             width: 100,
           }}
         />
-        <h4>🎉 Congrats!! Your Order is placed.</h4>
+        <h4>Loading!! Hold tight.</h4>
       </div>
     </div>
   );
 }
 
-export default page;
+export default Loading

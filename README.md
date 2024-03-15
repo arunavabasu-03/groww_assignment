@@ -14,7 +14,7 @@ To setup this repo pls follow this steps -
 
 1. **Clone the Repository**: 
 ```bash 
-git clone 
+git clone  git@github.com:arunavabasu-03/groww_assignment.git
 ```
 2. **Install Dependencies**: 
 

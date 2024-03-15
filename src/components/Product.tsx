@@ -61,7 +61,7 @@ function Product({
       {/*Remove Item*/}
       <Trash2
         style={{
-          paddingRight: 20,
+          paddingRight: 10,
         }}
         onClick={() => {
           removeEntireFromCart(id);

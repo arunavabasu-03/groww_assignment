@@ -42,7 +42,7 @@ function Product({
         {/*product info*/}
         <div>
           <h1 className={styles.title}>{title}</h1>
-          <p>{price}</p>
+          <p>${price}</p>
           <div className={styles.quantity_container}>
             <Plus
               className={styles.button}

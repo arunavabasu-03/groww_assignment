@@ -26,15 +26,7 @@ export default function Page() {
     useFetchOrderDetails();
   const { isLoading: isThemeLoading, isError: isThemeError } = useFetchTheme();
 
-  const darkTheme = {
-    "--background": "#333",
-    "--foreground": "#fff",
-  };
 
-  const lightTheme = {
-    "--background": "#fff",
-    "--foreground": "#000",
-  };
   React.useEffect(() => {
     document.body.style.backgroundColor = theme["--background"] || "";
     document.body.style.color = theme["--foreground"] || "";

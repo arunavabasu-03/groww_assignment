@@ -1,7 +1,7 @@
 import Image from "next/image";
+import toast, { Toaster } from "react-hot-toast";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import styles from "@/styles/components/product.module.css";
-
 interface TProductProps {
   id: number;
   title: string;
@@ -23,6 +23,9 @@ function Product({
   removeFromCart,
   removeEntireFromCart,
 }: TProductProps) {
+  const removeFromCartNotify = () => toast.success("Item removed");
+  const addtoCartNotify = () => toast.success("Item added");
+
   return (
     <div className={styles.container} key={id}>
       <div className={styles.productContainer}>
@@ -45,6 +48,7 @@ function Product({
               className={styles.button}
               onClick={() => {
                 addToCart(id);
+                addtoCartNotify();
               }}
             />
             <p>{quantity}</p>
@@ -52,6 +56,7 @@ function Product({
               className={styles.button}
               onClick={() => {
                 removeFromCart(id);
+                removeFromCartNotify();
               }}
             />
           </div>
@@ -65,8 +70,10 @@ function Product({
         }}
         onClick={() => {
           removeEntireFromCart(id);
+          removeFromCartNotify();
         }}
       />
+      <Toaster position="top-right" />
     </div>
   );
 }

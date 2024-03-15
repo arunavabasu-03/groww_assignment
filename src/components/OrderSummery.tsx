@@ -18,7 +18,8 @@ interface TProductProps {
 
 function OrderSummary() {
   const router = useRouter();
-
+  const routes = ["/orderplaced", "/ordercancel"];
+  const randomRoute = routes[Math.floor(Math.random() * routes.length)];
   const { products, loading, error } = useCartStore((state) => ({
     products: state.products,
     loading: state.loading,
@@ -107,7 +108,7 @@ function OrderSummary() {
             type="submit"
             className={styles.button}
             onClick={() => {
-              router.push("/orderplaced");
+            router.push(randomRoute);
             }}
           >
             Place Order

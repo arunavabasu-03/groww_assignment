@@ -10,11 +10,15 @@ const fetcher = async (url: string) => {
 };
 
 export function useFetchOrderDetails() {
+  
+  // getting the state from the store
   const setProducts = useCartStore((state) => state.setProducts);
   const setPaymentMethods = useCartStore((state) => state.setPaymentMethods);
   const setError = useCartStore((state) => state.setError);
   const setLoading = useCartStore((state) => state.setLoading);
 
+  
+  // fetching the products
   const { data, error } = useSWR(API_ORDER_DETAILS, fetcher, {
     onSuccess: (data) => {
       setProducts(data.products);

@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import { usePaymentMethodsStore } from "@/store/paymentStore";
 import { API_ORDER_DETAILS } from "@/constants/constant";
+import { usePaymentMethodsStore } from "@/store/paymentStore";
 
 const fetcher = async (url: string) => {
   const response = await fetch(url);
@@ -9,14 +9,14 @@ const fetcher = async (url: string) => {
 };
 
 export function useFetchPaymentMethods() {
+  // getting the state from the store
   const setPaymentMethods = usePaymentMethodsStore(
     (state) => state.setPaymentMethods
   );
   const setLoading = usePaymentMethodsStore((state) => state.setLoading);
   const setError = usePaymentMethodsStore((state) => state.setError);
 
-  
-  // fet
+  // fetching the payment methods
   const { data, error } = useSWR(API_ORDER_DETAILS, fetcher, {
     onSuccess: (data) => {
       setPaymentMethods(data.paymentMethods);

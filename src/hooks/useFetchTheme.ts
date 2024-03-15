@@ -1,7 +1,6 @@
 import useSWR from "swr";
 import useThemeStore from "@/store/themeStore";
-
-
+import { API_THEME } from "@/constants/constant";
 
 const fetcher = async (url: string) => {
   const response = await fetch(url);
@@ -9,20 +8,16 @@ const fetcher = async (url: string) => {
   return response.json();
 };
 
-
-
+// getting the state from store
 export const useFetchTheme = () => {
   const setTheme = useThemeStore((state) => state.setTheme);
 
-  const { data, error } = useSWR(
-    "https://groww-intern-assignment.vercel.app/v1/api/merchant-metadata",
-    fetcher,
-    {
-      onSuccess: (data) => {
-        setTheme(data.theme);
-      },
-    }
-  );
+  // fetching the theme
+  const { data, error } = useSWR(API_THEME, fetcher, {
+    onSuccess: (data) => {
+      setTheme(data.theme);
+    },
+  });
 
   return {
     theme: data?.theme,

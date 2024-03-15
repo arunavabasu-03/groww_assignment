@@ -1,23 +1,24 @@
 import useSWR from "swr";
-import { useCartStore } from "@/store/cartStore";
+import { usePaymentMethodsStore } from "@/store/paymentStore";
 import { API_ORDER_DETAILS } from "@/constants/constant";
 
 const fetcher = async (url: string) => {
   const response = await fetch(url);
-  if (!response.ok)
-    throw new Error("An error occurred while fetching the data.");
+  if (!response.ok) throw new Error("API call failed");
   return response.json();
 };
 
-export function useFetchOrderDetails() {
-  const setProducts = useCartStore((state) => state.setProducts);
-  const setPaymentMethods = useCartStore((state) => state.setPaymentMethods);
-  const setError = useCartStore((state) => state.setError);
-  const setLoading = useCartStore((state) => state.setLoading);
+export function useFetchPaymentMethods() {
+  const setPaymentMethods = usePaymentMethodsStore(
+    (state) => state.setPaymentMethods
+  );
+  const setLoading = usePaymentMethodsStore((state) => state.setLoading);
+  const setError = usePaymentMethodsStore((state) => state.setError);
 
+  
+  // fet
   const { data, error } = useSWR(API_ORDER_DETAILS, fetcher, {
     onSuccess: (data) => {
-      setProducts(data.products);
       setPaymentMethods(data.paymentMethods);
       setLoading(false);
     },

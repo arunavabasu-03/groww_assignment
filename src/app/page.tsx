@@ -1,65 +1,38 @@
 "use client";
-import { useEffect } from "react";
-
+import React, { useEffect } from "react";
+import { useCartStore } from "@/store/cartStore";
 import NavBar from "@/components/NavBar";
+import useThemeStore from "@/store/themeStore";
+import Loading from "@/components/Loading";
 import Product from "@/components/Product";
 import SubTotal from "@/components/SubTotal";
-import { useStore } from "@/store/cart";
-import useThemeStore from "@/store/theme";
-
-import { useFetchOrderDetails } from "@/hooks/useFetchOrderDetails";
-
 import styles from "@/styles/page.module.css";
 import EmptyCart from "@/components/EmptyCart";
-import Loading from "@/components/Loading";
+import { useFetchOrderDetails } from "@/hooks/useFetchOrderDetails";
+import { useFetchTheme } from "@/hooks/useFetchTheme";
 
-function MyApp() {
-  //@ts-ignore
-
+export default function Page() {
   const { theme, setTheme } = useThemeStore(); // setting the theme
 
-  const {
-    error,
-    products,
-    addToCart,
-    removeFromCart,
-    fetchOrderDetails,
-    removeEntireFromCart,
-  } = useStore((state) => ({
-    error: state.error,
-    products: state.products,
-    addToCart: state.addToCart,
-    removeFromCart: state.removeFromCart,
-    fetchOrderDetails: state.fetchOrderDetails,
-    removeEntireFromCart: state.removeEntireFromCart,
-  })); // getting the state from the store
+  const { error, products, addToCart, removeFromCart, removeEntireFromCart } =
+    useCartStore((state) => ({
+      error: state.error,
+      products: state.products,
+      addToCart: state.addToCart,
+      removeFromCart: state.removeFromCart,
+      removeEntireFromCart: state.removeEntireFromCart,
+    })); // getting the state from the store
 
-  const { isLoading, isError } = useFetchOrderDetails();
+  const { isLoading: isOrderLoading, isError: isOrderError } =
+    useFetchOrderDetails();
+  const { isLoading: isThemeLoading, isError: isThemeError } = useFetchTheme();
 
-  useEffect(() => {
-    fetchOrderDetails();
-  }, [fetchOrderDetails]);
+  React.useEffect(() => {
+    document.body.style.backgroundColor = theme["--background"] || "";
+    document.body.style.color = theme["--foreground"] || "";
+  }, [theme]);
 
-  useEffect(() => {
-    const fetchAndSetTheme = async () => {
-      try {
-        const response = await fetch(
-          "https://groww-intern-assignment.vercel.app/v1/api/merchant-metadata"
-        );
-        const data = await response.json();
-        setTheme(data.theme);
-        document.body.style.backgroundColor = data.theme["--background"];
-        document.body.style.color = data.theme["--foreground"];
-        console.log(data.theme["--background"]);
-      } catch (error) {
-        console.error("Failed to fetch theme data:", error);
-      }
-    };
-
-    fetchAndSetTheme();
-  }, [setTheme]);
-
-  if (isLoading)
+  if (isOrderLoading || isThemeLoading)
     return (
       <div>
         <NavBar />
@@ -67,7 +40,7 @@ function MyApp() {
       </div>
     );
 
-  if (isError) return <div>{error}</div>;
+  if (isOrderError || isThemeError) return <div>{error}</div>;
 
   if (products.length === 0)
     return (
@@ -102,5 +75,3 @@ function MyApp() {
     </div>
   );
 }
-
-export default MyApp;

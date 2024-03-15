@@ -1,15 +1,14 @@
 import { create } from "zustand";
 import { TProduct } from "@/types/types";
 
-export interface TCartState {
+interface TCartState {
   loading: boolean;
   error: string | null;
   products: TProduct[]; // all the products
   paymentMethods: string[]; // all the payment methods
   taxRate: number; // Added tax rate
 }
-export interface TCartActions {
-  fetchOrderDetails: () => Promise<void>;
+interface TCartActions {
   addToCart: (productId: number) => void;
   removeFromCart: (productId: number) => void;
   removeEntireFromCart: (productId: number) => void;
@@ -22,32 +21,13 @@ export interface TCartActions {
   setLoading: (loading: boolean) => void;
 }
 
-export const useStore = create<TCartState & TCartActions>((set, get) => ({
-  // Initial state
+export const useCartStore = create<TCartState & TCartActions>((set, get) => ({
   products: [],
   paymentMethods: [],
   loading: false,
   error: null,
   taxRate: 0.18,
 
-  fetchOrderDetails: async () => {
-    set({ loading: true, error: null });
-    try {
-      const response = await fetch(
-        "https://groww-intern-assignment.vercel.app/v1/api/order-details"
-      );
-      if (!response.ok) throw new Error("Failed to fetch data from the server");
-      const data: { products: TProduct[]; paymentMethods: string[] } =
-        await response.json();
-      set({ ...data, loading: false });
-    } catch (error) {
-      console.error("Fetch error:", error);
-      set({
-        loading: false,
-        error: "Failed to load order details. Please try again.",
-      });
-    }
-  },
   taxAmount: () => {
     const cartTotal = get().cartTotal();
     return cartTotal * get().taxRate;

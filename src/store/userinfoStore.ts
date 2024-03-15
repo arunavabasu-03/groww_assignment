@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export interface UserInfoState {
+interface UserInfoState {
   address: string;
   city: string;
   pin: string;

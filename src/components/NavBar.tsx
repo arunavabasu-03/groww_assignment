@@ -28,7 +28,7 @@ function NavBar() {
           style={{
             height: "20px",
             width: "100%",
-            borderTop: "1px solid lightgray", // This will create a top border acting as a divider
+            borderTop: "1px solid lightgray", 
           }}
         />
       </nav>

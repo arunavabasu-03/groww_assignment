@@ -1,4 +1,3 @@
-import NavBar from "./NavBar";
 import { CircleOff } from "lucide-react";
 
 function EmptyCart() {

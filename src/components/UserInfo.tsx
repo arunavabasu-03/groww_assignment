@@ -1,10 +1,11 @@
+"use client";
 import Loading from "./Loading";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useUserInfoStore } from "@/store/userinfo";
-import { usePaymentMethodsStore } from "@/store/payment";
+import { useUserInfoStore } from "@/store/userinfoStore";
+import { usePaymentMethodsStore } from "@/store/paymentStore";
 import styles from "@/styles/components/Userinfo.module.css";
+import { useFetchPaymentMethods } from "@/hooks/useFetchPaymentMethods";
 
 const UserInfoForm = () => {
   const router = useRouter();
@@ -14,47 +15,43 @@ const UserInfoForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const {
-    paymentMethods,
-    fetchPaymentMethods,
-    loading,
-    error,
-    selectPaymentMethod,
-  } = usePaymentMethodsStore();
-  
-  
+  const { isLoading, isError } = useFetchPaymentMethods();
+  const paymentMethods = usePaymentMethodsStore(
+    (state) => state.paymentMethods
+  );
+
+  const selectPaymentMethod = usePaymentMethodsStore(
+    (state) => state.selectPaymentMethod
+  );
+  const error = usePaymentMethodsStore((state) => state.error);
+
   const { setAddress, setCity, setPin, setSelectedPaymentMethod } =
     useUserInfoStore();
-  useEffect(() => {
-    fetchPaymentMethods();
-  }, [fetchPaymentMethods]);
 
-  
-  
   const onSubmit = (data: any) => {
-    setAddress(data.address);
-    setCity(data.city);
     setPin(data.pin);
-    console.log(data);
+    setCity(data.city);
+    setAddress(data.address);
     selectPaymentMethod(data.paymentMethod);
-    console.log(data);
     router.push("/ordersummery");
   };
 
-  if (loading)
+  if (isLoading)
     return (
       <div>
         <Loading />
       </div>
     );
-  if (error) return <div>Error: {error}</div>;
+  if (isError) return <div>Error: {error}</div>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
       <h2>Your Details</h2>
       <h4>Address</h4>
+
+      {/*address*/}
       <div>
-        <p>Address</p>
+        <p>Address 1</p>
         <input
           id="address"
           {...register("address", { required: "Address is required" })}
@@ -66,7 +63,7 @@ const UserInfoForm = () => {
           </p>
         )}
       </div>
-
+      {/*city*/}
       <div>
         <p>City</p>
         <input
@@ -80,44 +77,52 @@ const UserInfoForm = () => {
           </p>
         )}
       </div>
+      {/*pin code*/}
+      <div>
+        <p>PIN Code</p>
+        <input
+          {...register("pin", {
+            required: "PIN is required",
+            pattern: {
+              value: /^\d{6}$/,
+              message: "PIN must be a 6-digit number",
+            },
+          })}
+          placeholder="PIN"
+          className={styles.input}
+        />
+        {errors.pin && (
+          <p className={styles.error}>
+            {errors.pin.message as React.ReactNode}
+          </p>
+        )}
+      </div>
+      {/*payment method*/}
+      <div>
+        <h4>Payment method</h4>
+        {paymentMethods.map((method, index) => (
+          <div key={index}>
+            <input
+              {...register("paymentMethod", {
+                required: "Payment method is required",
+              })}
+              type="radio"
+              value={method}
+              id={method}
+              style={{
+                marginBottom: "20px",
+              }}
+            />
+            <span>{method}</span>
+          </div>
+        ))}
+        {errors.paymentMethod && (
+          <p className={styles.error}>
+            {errors.paymentMethod.message as React.ReactNode}
+          </p>
+        )}
+      </div>
 
-      <p>PIN Code</p>
-      <input
-        {...register("pin", {
-          required: "PIN is required",
-          pattern: {
-            value: /^\d{6}$/,
-            message: "PIN must be a 6-digit number",
-          },
-        })}
-        placeholder="PIN"
-        className={styles.input}
-      />
-      {errors.pin && (
-        <p className={styles.error}>{errors.pin.message as React.ReactNode}</p>
-      )}
-      <h4>Payment method</h4>
-      {paymentMethods.map((method, index) => (
-        <div key={index}>
-          <input
-            {...register("paymentMethod", {
-              required: "Payment method is required",
-            })}
-            type="radio"
-            value={method}
-            id={method}
-            style={{
-              marginBottom: "20px",
-            }}
-          />
-          <span>{method}</span>
-        </div>
-      ))}
-      {errors.paymentMethod && (
-        <p className={styles.error}>
-          {errors.paymentMethod.message as React.ReactNode}
-        </p>
-      )}
       <button type="submit" className={styles.button}>
         Save and Continue
       </button>

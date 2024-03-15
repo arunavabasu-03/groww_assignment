@@ -1,4 +1,3 @@
-"use client";
 import NavBar from "@/components/NavBar";
 import UserInfoForm from "@/components/UserInfo";
 

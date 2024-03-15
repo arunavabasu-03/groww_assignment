@@ -1,11 +1,11 @@
-import { useStore } from "@/store/cart";
+import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 import styles from "@/styles/components/sutotal.module.css";
 
 function SubTotal() {
-  const cartTotal = useStore((state) => state.cartTotal);
-  const taxAmount = useStore((state) => state.taxAmount);
-  const finalTotal = useStore((state) => state.finalTotal);
+  const cartTotal = useCartStore((state) => state.cartTotal);
+  const taxAmount = useCartStore((state) => state.taxAmount);
+  const finalTotal = useCartStore((state) => state.finalTotal);
   const router = useRouter();
 
   return (
